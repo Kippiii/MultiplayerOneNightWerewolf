@@ -1,14 +1,14 @@
 Role = function() {
 	var self = {};
 	self.name = "";
-	self.roleSelectionImage = "client/img/roleSelector/";
+	self.roleSelectionImage = "client/img/";
 	return self;
 }
 
 Werewolf = function() {
 	var self = Role();
 	self.name += "Werewolf";
-	self.roleSelectionImage += "Werewolf.jpg";
+	self.roleSelectionImage += "Werewolf.png";
 	return self;
 }
 Minion = function() {
