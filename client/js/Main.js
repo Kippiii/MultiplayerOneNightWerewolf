@@ -149,7 +149,7 @@ function submitRoleList() {
 		}
 		socket.emit("hostRoles", {
 			roles: roles,
-			name: name;
+			name: name
 		});
 	});
 	
