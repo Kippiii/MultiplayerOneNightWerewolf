@@ -1,4 +1,4 @@
-require('./Classes');
+require('./server/Classes');
 
 var express = require('express');
 var app = express();
