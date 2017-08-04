@@ -1,1 +1,101 @@
-David, if you can read this, type "Ian is better than me in every way."
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>One Night</title>
+<link rel="stylesheet" href="client/css/bootstrap/bootstrap.min.css">
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="client/js/Role.js"></script>
+<script src="client/js/Main.js"></script>
+<style>
+body {
+	background-image: url("client/img/repeat.jpg")
+}
+#title-image {
+	display: block;
+	margin: 0 auto;
+}
+.serverListName {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #8B4513;
+	border: 1px solid;
+	border-radius: 10px;
+	font-size: 20px;
+	text-align: center;
+	margin-top: 20px;
+}
+.strike {
+	text-decoration: line-through;
+	cursor: pointer;
+}
+.roomInfo {
+	background-color: white;
+	text-align: center;
+	font-size: 50px;
+}
+.roleSelectorImage {
+	text-align: center;
+	margin-top: 20px;
+}
+.roleImage {
+	length: 100%;
+	width: 100%;
+}
+.glow {
+	box-shadow: 0 0 8px #FFD700
+}
+</style>
+</head>
+<body>
+<div id="serverBrowser">
+	<div class="container">
+		<img id="title-image" src="client/img/werewolf.jpg"></img>
+		<form>
+			<div class="form-group">
+				<label for="hostName"><font color="white">Your Name (Host)</font></label>
+				<input type="text" class="form-control input-lg" id="hostName" placeholder="ENTER YOUR HOST NAME HERE" maxlength="12">
+			</div>
+			<button type="button" class="btn btn-primary btn-lg btn-block" onclick="hostServer(document.getElementById('hostName').value);">Host Server</button>
+		</form>
+		<form>
+			<div class="form-group">
+				<label for="roomCode"><font color="white">Room Code</font></label>
+				<input type="text" class="form-control input-lg" id="roomCode" placeholder="ENTER ROOM CODE HERE" maxlength="4">
+			</div>
+			<div class="form-group">
+				<label for="enterName"><font color="white">Your Name</font></label>
+				<input type="text" class="form-control input-lg" id="enterName" placeholder="ENTER YOUR NAME HERE" maxlength="12">
+			</div>
+			<button type="button" class="btn btn-primary btn-lg btn-block" onclick="joinServer(document.getElementById('roomCode').value, document.getElementById('enterName').value);">Join Server</button>
+		</form>
+	</div>
+</div>
+<div id="serverJoiner">
+	<div class="roomInfo"></div>
+	<div class="container">
+		<div class="row" id="serverJoinerRow"></div>
+		<div class="row" style="margin-top: 50px">
+			<div class="col-md-5 col-sm-5"><button type="button" class="btn btn-primary btn-lg btn-block" onclick="openRoleSelector();">Roles</button></div>
+			<div class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2"><button type="button" class="btn btn-primary btn-lg btn-block">Start Game</button></div>
+		</div>
+	</div>
+</div>
+<div id="roleSelectorHost">
+	<div class="roomInfo"></div>
+	<div class="container">
+		<div class="row roleSelectorImages"></div>
+				<div type="button" class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;" onclick="submitRoleList();">Submit</button>
+		</div>
+	</div>
+</div>
+<div id="roleSelectorJoiner">
+	<div class="roomInfo"></div>
+	<div class="container">
+		<div class="row roleSelectorImages"></div>
+		<div type="button" class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;" onclick="backToServerJoiner();">Back</button>
+	</div>
+</div>
+</body>
+</html>
