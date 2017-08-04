@@ -9,9 +9,10 @@
   },
   "engines": {
 	"node": "4.6.0"
-  }
+  },
+  "devDependencies": {},
   "scripts": {
-    "start": "node app.js"
+	"start": "node app.js"
   },
   "author": "",
   "license": "ISC"
