@@ -8,7 +8,7 @@ Role = function() {
 Werewolf = function() {
 	var self = Role();
 	self.name += "Werewolf";
-	self.roleSelectionImage += "Werewolf.png";
+	self.roleSelectionImage += "Werewolf.jpg";
 	return self;
 }
 Minion = function() {
