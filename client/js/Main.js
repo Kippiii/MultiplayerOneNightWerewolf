@@ -50,9 +50,28 @@ socket.on('kick', function() {
 	alert("You have been kicked");
 });
 
-socket.on("roleUpdate", function(roles) {
-	for(var i = 0; i < roles.list; i++) {
-		//TODO
+socket.on("roleUpdate", function(roless) {
+	for(var i = 0; i < roless.length; i++) {
+		roles = roless
+		$("#roleSelectorJoiner .container .roleSelectorImages").children(".roleSelectorImage").each(function() {
+			$image = $(this).find(".roleImage")
+			$image.removeClass("glow")
+			var role = ""
+			for(var i = 0; i < Role.list.length; i++) {
+				if($image.hasClass(Role.list[i].name)) {
+					role = Role.list[i].name
+					break
+				}
+			}
+			for(var i = 0; i < roless.length; i++) {
+				if(role == roless[i]) {
+					$image.addClass("glow")
+					roless.splice(i, 1)
+					break
+					//TODO
+				}
+			}
+		});
 	}
 });
 
@@ -122,7 +141,7 @@ function updateServerBrowser() {
 
 function generateRoleSelector() {
 	for(var i = 0; i < Role.list.length; i++) {
-		$('.roleSelectorImages').append("<div class=\"col-md-2 col-sm-2 col-xs-3 roleSelectorImage\"><img src=\"" + Role.list[i]().roleSelectionImage + "\" class=\"roleImage\" " + Role.list[i]().name +"></div>");
+		$('.roleSelectorImages').append("<div class=\"col-md-2 col-sm-2 col-xs-3 roleSelectorImage\"><img src=\"" + Role.list[i]().roleSelectionImage + "\" class=\"roleImage " + Role.list[i]().name +"\"></div>");
 	}
 	$('.roleImage').on("click", function() {
 			if(players[0] == name) {
@@ -140,17 +159,25 @@ function openRoleSelector() {
 }
 
 function submitRoleList() {
-	$('#roleSelectorImages').children('.glow').each(function() {
-		for(var i = 0; i < Role.list.length; i++) {
-			if($(this).hasClass(Role.list[i].name)) {
-				roles.push(Role.list[i]);
-				break;
+	roles = []
+	$('#roleSelectorHost .container .roleSelectorImages').children('.roleSelectorImage').each(function() {
+		$image = $(this).find(".roleImage");
+		if($image.hasClass("glow")) {
+			for(var i = 0; i < Role.list.length; i++) {
+				if($image.hasClass(Role.list[i].name)) {
+					roles.push(Role.list[i]);
+					break;
+				}
 			}
 		}
-		socket.emit("hostRoles", {
-			roles: roles,
-			name: name
-		});
+	});
+	
+	var tempRoles = []
+	for(var i = 0; i < roles.length; i++)
+		tempRoles.push(roles[i].name)
+	socket.emit("hostRoles", {
+		roles: tempRoles,
+		name: name
 	});
 	
 	$('#roleSelectorHost').hide();

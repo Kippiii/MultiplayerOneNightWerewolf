@@ -69,7 +69,7 @@ io.sockets.on('connection', function(socket) {
 	//When the host submits roles
 	socket.on('hostRoles', function(data) {
 		for(var code in Game.list) {
-			if(Game.list[code].host == data.name) {
+			if(Game.list[code].host.name == data.name) {
 				Game.list[code].updateRoles(data.roles);
 			}
 		}
