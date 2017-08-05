@@ -14,6 +14,7 @@ Game = function(host) {
 	self.players[host.name] = host;
 	self.code = Game.createGameCode();
 	self.state = "serverJoiner";
+	self.roles = []
 	
 	self.addPlayer = function(player) {
 		self.players[player.name] = player;
@@ -46,6 +47,9 @@ Game = function(host) {
 	}
 	
 	self.updateRoles = function(roles) {
+		self.roles = []
+		for(var i = 0; i < roles.length; i++) 
+			self.roles.push(Role.getRole(roles[i]))
 		for(var name in self.players) {
 			var player = self.players[name];
 			if(name != host)
@@ -101,4 +105,77 @@ Game.createGameCode = function() {
 		return code;
 	else
 		createGameCode();
+}
+
+//The Roles
+Role = function() {
+	var self = {};
+	self.name = "";
+	return self;
+}
+
+Werewolf = function() {
+	var self = Role();
+	self.name += "Werewolf";
+	return self;
+}
+Minion = function() {
+	var self = Role();
+	self.name += "Minion";
+	return self;
+}
+Mason = function() {
+	var self = Role();
+	self.name += "Mason";
+	return self;
+}
+Seer = function() {
+	var self = Role();
+	self.name += "Seer";
+	return self;
+}
+Robber = function() {
+	var self = Role();
+	self.name += "Robber";
+	return self;
+}
+Troublemaker = function() {
+	var self = Role();
+	self.name += "Troublemaker";
+	return self;
+}
+Drunk = function() {
+	var self = Role();
+	self.name += "Drunk";
+	return self;
+}
+Insomniac = function() {
+	var self = Role();
+	self.name += "Insomniac";
+	return self;
+}
+Villager = function() {
+	var self = Role();
+	self.name += "Villager";
+	return self;
+}
+Hunter = function() {
+	var self = Role();
+	self.name += "Hunter";
+	return self;
+}
+Tanner = function() {
+	var self = Role();
+	self.name += "Tanner";
+	return self;
+}
+
+Role.list = [Werewolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Villager, Villager, Villager, Hunter, Tanner];
+
+Role.getRole = function(string) {
+	for(var i = 0; i < Role.list.length; i++) {
+		if(Role.list[i]().name == string)
+			return Role.list[i]()
+	}
+	return null
 }
