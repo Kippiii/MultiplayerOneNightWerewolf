@@ -79,9 +79,8 @@ socket.on("err", function(msg) {
 	alert(msg)
 });
 
-socket.on("startGame", function() {
-	alert("THE GAME IS STARTING!!!")
-	//TODO
+socket.on("startGame", function(role) {
+	console.log(role)
 })
 
 function hostServer(playerName) {

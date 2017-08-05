@@ -3,6 +3,10 @@ Player = function(socket, name) {
 	var self = {};
 	self.socket = socket;
 	self.name = name;
+	self.role = {}
+	self.setRole = function(role) {
+		self.role = role
+	}
 	return self;
 }
 
@@ -15,6 +19,7 @@ Game = function(host) {
 	self.code = Game.createGameCode();
 	self.state = "serverJoiner";
 	self.roles = []
+	self.midRoles = []
 	
 	self.addPlayer = function(player) {
 		if(Object.keys(self.players).length >= 10) {
@@ -67,15 +72,26 @@ Game = function(host) {
 		else if(self.roles.length != Object.keys(self.players).length + 3) 
 			host.socket.emit("err", "You have an invalid number of roles selected. The number of roles selected should be the number of players plus three.")
 		else {
-			for(var name in self.players)
-				self.players[name].socket.emit("startGame")
 			self.startGame()
 		}
 	}
 	
 	self.startGame = function() {
-		console.log("Starting game...")
-		//TODO
+		var roles = self.roles
+		for(var name in self.players) {
+			var random = Math.floor(Math.random() * roles.length)
+			self.players[name].setRole(roles[random])
+			roles.splice(random, 1)
+		}
+		
+		for(var i = 0; i < 3; i++) {
+			var random = Math.floor(Math.random() * roles.length)
+			self.midRoles.push(roles[random])
+			roles.splice(random, 1)
+		}
+	
+		for(var name in self.players)
+			self.players[name].socket.emit("startGame", self.players[name].role.name)
 	}
 	
 	Game.list[self.code] = self;
