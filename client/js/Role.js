@@ -2,74 +2,87 @@ Role = function() {
 	var self = {};
 	self.name = "";
 	self.roleSelectionImage = "client/img/";
+	self.cardImage = "client/img/"
+	self.setUpRole = function() {
+		self.roleSelectionImage += self.name + ".png"
+		self.cardImage +=  self.name + "Card.png"
+	}
 	return self;
 }
 
 Werewolf = function() {
 	var self = Role();
 	self.name += "Werewolf";
-	self.roleSelectionImage += "Werewolf.png";
+	self.setUpRole()
 	return self;
 }
 Minion = function() {
 	var self = Role();
 	self.name += "Minion";
-	self.roleSelectionImage += "Minion.png";
+	self.setUpRole()
 	return self;
 }
 Mason = function() {
 	var self = Role();
 	self.name += "Mason";
-	self.roleSelectionImage += "Mason.png";
+	self.setUpRole()
 	return self;
 }
 Seer = function() {
 	var self = Role();
 	self.name += "Seer";
-	self.roleSelectionImage += "Seer.png";
+	self.setUpRole()
 	return self;
 }
 Robber = function() {
 	var self = Role();
 	self.name += "Robber";
-	self.roleSelectionImage += "Robber.png";
+	self.setUpRole()
 	return self;
 }
 Troublemaker = function() {
 	var self = Role();
 	self.name += "Troublemaker";
-	self.roleSelectionImage += "Troublemaker.png";
+	self.setUpRole()
 	return self;
 }
 Drunk = function() {
 	var self = Role();
 	self.name += "Drunk";
-	self.roleSelectionImage += "Drunk.png";
+	self.setUpRole()
 	return self;
 }
 Insomniac = function() {
 	var self = Role();
 	self.name += "Insomniac";
-	self.roleSelectionImage += "Insomniac.png";
+	self.setUpRole()
 	return self;
 }
 Villager = function() {
 	var self = Role();
 	self.name += "Villager";
-	self.roleSelectionImage += "Villager.png";
+	self.setUpRole()
 	return self;
 }
 Hunter = function() {
 	var self = Role();
 	self.name += "Hunter";
-	self.roleSelectionImage += "Hunter.png";
+	self.setUpRole()
 	return self;
 }
 Tanner = function() {
 	var self = Role();
 	self.name += "Tanner";
-	self.roleSelectionImage += "Tanner.png";
+	self.setUpRole()
 	return self;
 }
 
 Role.list = [Werewolf, Werewolf, Minion, Mason, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Villager, Villager, Villager, Hunter, Tanner];
+Role.getRole = function(string) {
+	for(var i = 0; i < Role.list.length; i++) {
+		if(Role.list[i]().name == string) {
+			return Role.list[i]()
+		}
+	}
+	return null
+}

@@ -4,11 +4,13 @@ var code;
 var players;
 var name;
 var roles = [];
+var yourRole = {};
 
 $(document).ready(function() {
 	$('#serverJoiner').hide();
 	$('#roleSelectorHost').hide();
 	$('#roleSelectorJoiner').hide();
+	$("#showRole").hide();
 	generateRoleSelector();
 });
 
@@ -80,7 +82,11 @@ socket.on("err", function(msg) {
 });
 
 socket.on("startGame", function(role) {
-	console.log(role)
+	yourRole = Role.getRole(role)
+	$div = $("#showRole .container .row")
+	$div.append("<div class='col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4'><img src=\"" + yourRole.cardImage + "\" class='roleImage'></div>")
+	$('#serverJoiner').hide();
+	$("#showRole").show();
 })
 
 function hostServer(playerName) {
@@ -152,10 +158,10 @@ function generateRoleSelector() {
 		$('.roleSelectorImages').append("<div class=\"col-md-2 col-sm-2 col-xs-3 roleSelectorImage\"><img src=\"" + Role.list[i]().roleSelectionImage + "\" class=\"roleImage " + Role.list[i]().name +"\"></div>");
 	}
 	$('.roleImage').on("click", function() {
-			if(players[0] == name) {
-				$(this).toggleClass("glow");
-			}
-		});
+		if(players[0] == name) {
+			$(this).toggleClass("glow");
+		}
+	});
 }
 
 function openRoleSelector() {
