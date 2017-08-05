@@ -84,7 +84,7 @@ socket.on("err", function(msg) {
 socket.on("startGame", function(role) {
 	yourRole = Role.getRole(role)
 	$div = $("#showRole .container .row")
-	$div.append("<div class='col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4'><img src=\"" + yourRole.cardImage + "\" class='roleImage'></div>")
+	$div.append("<div class='col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4'><img src=\"" + yourRole.cardImage + "\" class='roleImage'></div>")
 	$('#serverJoiner').hide();
 	$("#showRole").show();
 })
