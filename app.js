@@ -62,6 +62,7 @@ io.sockets.on('connection', function(socket) {
 			if(Game.list[code].host.socket.id == socket.id) {
 				Game.list[code].players[data.player].socket.emit("kick");
 				Game.list[code].removePlayer(Game.list[code].players[data.player]);
+				break;
 			}
 		}
 	});
@@ -69,8 +70,18 @@ io.sockets.on('connection', function(socket) {
 	//When the host submits roles
 	socket.on('hostRoles', function(data) {
 		for(var code in Game.list) {
-			if(Game.list[code].host.name == data.name) {
+			if(Game.list[code].host.socket.id == socket.id) {
 				Game.list[code].updateRoles(data.roles);
+				break;
+			}
+		}
+	});
+	
+	socket.on('startGame', function() {
+		for(var code in Game.list) {
+			if(Game.list[code].host.socket.id == socket.id) {
+				Game.list[code].attemptStart()
+				break
 			}
 		}
 	});

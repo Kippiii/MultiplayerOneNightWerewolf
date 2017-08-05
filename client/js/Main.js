@@ -75,6 +75,15 @@ socket.on("roleUpdate", function(roless) {
 	}
 });
 
+socket.on("err", function(msg) {
+	alert(msg)
+});
+
+socket.on("startGame", function() {
+	alert("THE GAME IS STARTING!!!")
+	//TODO
+})
+
 function hostServer(playerName) {
 	if(playerName != "") {
 		socket.emit('host', {
@@ -187,4 +196,11 @@ function submitRoleList() {
 function backToServerJoiner() {
 	$('#roleSelectorJoiner').hide();
 	$('#serverJoiner').show();
+}
+
+function startGame() {
+	if(players[0] == name)
+		socket.emit("startGame");
+	else
+		alert("Only the host can start the game.")
 }

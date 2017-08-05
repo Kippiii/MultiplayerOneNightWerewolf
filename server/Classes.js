@@ -17,6 +17,10 @@ Game = function(host) {
 	self.roles = []
 	
 	self.addPlayer = function(player) {
+		if(Object.keys(self.players).length >= 10) {
+			player.socket.emit("err", "The server is full.")
+			return
+		}
 		self.players[player.name] = player;
 		var players = [];
 		for(var name in self.players)
@@ -55,6 +59,23 @@ Game = function(host) {
 			if(name != host)
 				player.socket.emit("roleUpdate", roles);
 		}
+	}
+	
+	self.attemptStart = function() {
+		if(Object.keys(self.players).length < 3)
+			host.socket.emit("err", "Too few players. You need at least three.")
+		else if(self.roles.length != Object.keys(self.players).length + 3) 
+			host.socket.emit("err", "You have an invalid number of roles selected. The number of roles selected should be the number of players plus three.")
+		else {
+			for(var name in self.players)
+				self.players[name].socket.emit("startGame")
+			self.startGame()
+		}
+	}
+	
+	self.startGame = function() {
+		console.log("Starting game...")
+		//TODO
 	}
 	
 	Game.list[self.code] = self;
