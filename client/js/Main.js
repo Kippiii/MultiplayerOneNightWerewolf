@@ -90,6 +90,12 @@ socket.on("startGame", function(role) {
 	$("#showRole").show();
 })
 
+socket.on("startNight", function(parameters) {
+	$("body").css("background-image", "url('client/img/nightRepeat.jpg')")
+	alert("Night has begun.")
+	console.log(parameters)
+})
+
 function hostServer(playerName) {
 	if(playerName != "") {
 		socket.emit('host', {

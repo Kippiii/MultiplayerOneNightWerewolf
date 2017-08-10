@@ -26,6 +26,10 @@ Game = function(host) {
 			player.socket.emit("err", "The server is full.")
 			return
 		}
+		if(self.state != "serverJoiner") {
+			player.socket.emit("err", "The game is in progress.")
+			return
+		}
 		self.players[player.name] = player;
 		var players = [];
 		for(var name in self.players)
@@ -77,6 +81,7 @@ Game = function(host) {
 	}
 	
 	self.startGame = function() {
+		self.state = "Starting"
 		var roles = self.roles
 		for(var name in self.players) {
 			var random = Math.floor(Math.random() * roles.length)
@@ -92,6 +97,21 @@ Game = function(host) {
 	
 		for(var name in self.players)
 			self.players[name].socket.emit("startGame", self.players[name].role.name)
+		
+		var counter = 0
+		var timer = setInterval(function() {
+			counter++
+			if(counter >= 10) {
+				self.startNight()
+				clearInterval(timer)
+			}
+		}, 1000)
+	}
+	
+	self.startNight = function() {
+		self.state = "Night"
+		for(var name in self.players)
+			self.players[name].socket.emit("startNight", self.players[name].role.getParameters(self))
 	}
 	
 	Game.list[self.code] = self;
@@ -148,22 +168,46 @@ Game.createGameCode = function() {
 Role = function() {
 	var self = {};
 	self.name = "";
+	self.getParameters = function(game) {
+		return {}
+	}
 	return self;
 }
 
 Werewolf = function() {
 	var self = Role();
 	self.name += "Werewolf";
+	self.getParameters = function(game) {
+		var werewolves = []
+		for(var name in game.players)
+			if(game.players[name].role.name == "Werewolf")
+				werewolves.push(game.players[name].name)
+		return {werewolves: werewolves}
+	}
 	return self;
 }
 Minion = function() {
 	var self = Role();
 	self.name += "Minion";
+	self.getParameters = function(game) {
+		var werewolves = []
+		for(var name in game.players)
+			if(game.players[name].role.name == "Werewolf")
+				werewolves.push(game.players[name].name)
+		return {werewolves: werewolves}
+	}
 	return self;
 }
 Mason = function() {
 	var self = Role();
 	self.name += "Mason";
+	self.getParameters = function(game) {
+		var masons = []
+		for(var name in game.players)
+			if(game.players[name].role.name == "Mason")
+				masons.push(game.players[name].name)
+		return {masons: masons}
+	}
 	return self;
 }
 Seer = function() {
